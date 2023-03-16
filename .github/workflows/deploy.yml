@@ -29,4 +29,4 @@ jobs:
       - run: chmod 600 "$HOME/.ssh/key"
       # Deploy
       - run: rsync -e "ssh -p 22 -i $HOME/.ssh/key -o
-          StrictHostKeyChecking=no" --exclude={'node_modules/', '.github/', '.git/'} --archive --compress --delete . mymcicu@mymc.icu:/home/mymcicu/repositories/project-nodejs_55-5_backend
+          StrictHostKeyChecking=no" --exclude={'node_modules', '.github', '.git'} --archive --compress --delete . mymcicu@mymc.icu:/home/mymcicu/repositories/project-nodejs_55-5_backend
