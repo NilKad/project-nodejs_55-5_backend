@@ -14,20 +14,20 @@ jobs:
       - name: Install, lint, build 🔧
         run: |
           npm install
-          npm run lint:js
-          npm run build
+        # npm run lint:js
+        #  npm run build
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.0
-        with:
-          branch: gh-pages
-          folder: build
+      #- name: Deploy 🚀
+      #  uses: JamesIves/github-pages-deploy-action@4.1.0
+      #  with:
+      #    branch: gh-pages
+      #    folder: build
 
       - run: set -eu
       - run: mkdir "$HOME/.ssh"
       - run: echo "${{ secrets.mymcicu }}" > "$HOME/.ssh/key"
       - run: chmod 600 "$HOME/.ssh/key"
       # Deploy
-      - run: cd build && ls && rsync -e "ssh -p 22 -i $HOME/.ssh/key -o
-          StrictHostKeyChecking=no" --archive --compress --delete .
+      - run: rsync -e "ssh -p 22 -i $HOME/.ssh/key -o
+          StrictHostKeyChecking=no" --exclude 'node_modules/*' --archive --compress --delete .
           mymcicu@mymc.icu:/home/mymcicu/repositories/project-nodejs_55-5_backend
