@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/NilKad/project-nodejs_55-5_backend/issues"
   },
-  "homepage": "https://github.com/NilKad/project-nodejs_55-5_backend#readme"
+  "homepage": "https://github.com/NilKad/project-nodejs_55-5_backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.2"
+  }
 }
