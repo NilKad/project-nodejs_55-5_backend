@@ -10,6 +10,10 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/users', (req, res, next) => {
+  res.status(400).json({ code: 400, message: 'Error req' });
+});
+
 app.use((err, req, res, next) => {
   console.log('!!!!! (err, req, resp, next) ');
   console.log('err data:\t', err.data);
