@@ -1,6 +1,8 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const auth = require('./routes/api/auth');
+const { notices, services, news, pets } = require('./routes/api');
 
 const app = express();
 
@@ -10,9 +12,13 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/users', (req, res, next) => {
-  res.status(400).json({ code: 400, message: 'Error req' });
-});
+app.use('/api/auth', auth);
+app.use('/api/notices', notices);
+app.use('/api/services', services);
+app.use('/api/news', news);
+app.use('/api/pets', pets);
+// app.use('/api/breed', ctrl.breed);
+// app.use('/api/location', ctrl.location);
 
 app.use((err, req, res, next) => {
   console.log('!!!!! (err, req, resp, next) ');
