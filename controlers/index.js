@@ -1,4 +1,4 @@
-const news = require("../routes/api/news");
+const news = require("../controlers/news");
 
 
 module.exports = {news};
