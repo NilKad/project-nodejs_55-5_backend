@@ -1,5 +1,9 @@
-const news = (req, res, next) => {
-  //
-};
+const express = require("express");
+const news = require("../../controlers");
+const ctrlWrapper = require("../../middleWares/ctrlWrapper");
 
-module.exports = news;
+const router = express.Router();
+
+router.get("/", ctrlWrapper(news));
+
+module.exports = routerNews = router;
