@@ -1,0 +1,575 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger Petly - OpenAPI 3.0",
+    "description": "aaaa",
+    "contact": {
+      "email": "kadulin@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3030/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user"
+    },
+    {
+      "name": "sponsors"
+    },
+    {
+      "name": "news"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "operationId": "UserRegister",
+        "summary": "User registration",
+        "parameters": [],
+        "description": "description",
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRegisterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "409": {
+            "description": "Provided email already exists"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "UserLogin",
+        "tags": [
+          "user"
+        ],
+        "summary": "User authentication",
+        "parameters": [],
+        "description": "description",
+        "requestBody": {
+          "description": "Authentication's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserLoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad request (invalid request body)"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Email doesn't exist / Password is wrong",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Email or password is wrong"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/user": {
+      "patch": {
+        "tags": [
+          "user"
+        ],
+        "operationId": "UserUpdate",
+        "summary": "User authentication",
+        "parameters": [],
+        "description": "description",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "User update information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserUpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad request (invalid request body)"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logout user",
+        "parameters": [],
+        "operationId": "UserLogOut",
+        "description": "description",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 204,
+                  "message": "Logout successful"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No token provided",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 400,
+                  "message": "No token provided"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 401,
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sponsors": {
+      "get": {
+        "tags": [
+          "sponsors"
+        ],
+        "operationId": "Sponsors",
+        "description": "description",
+        "summary": "Get all services and friends",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SponsorsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news": {
+      "get": {
+        "tags": [
+          "news"
+        ],
+        "operationId": "News",
+        "description": "description",
+        "summary": "Get all news",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserRegisterRequest": {
+        "type": "object",
+        "required": [
+          "userName",
+          "email",
+          "password",
+          "phone",
+          "city"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "Степан Бандера"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "demo@demo.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "123PaSwOrD"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380971234567"
+          },
+          "city": {
+            "type": "string",
+            "example": "Lviv"
+          }
+        }
+      },
+      "UserRegisterResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "507f1f77bcf86cd799439012"
+          },
+          "username": {
+            "type": "string",
+            "example": "Степан Бандера"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "demo@demo.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380971234567"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date",
+            "example": "1909-01-01"
+          },
+          "city": {
+            "type": "string",
+            "example": "Lviv"
+          },
+          "photo": {
+            "type": "string",
+            "example": ""
+          }
+        }
+      },
+      "UserLoginRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "demo@demo.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "123PaSwOrD"
+          }
+        }
+      },
+      "UserLoginResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "Session's access token (needed for all requests)",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "507f1f77bcf86cd799439012"
+              },
+              "username": {
+                "type": "string",
+                "example": "Степан Бандера"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "example": "demo@demo.com"
+              },
+              "phone": {
+                "type": "string",
+                "example": "+380971234567"
+              },
+              "birthday": {
+                "type": "string",
+                "format": "date",
+                "example": "1909-01-01"
+              },
+              "city": {
+                "type": "string",
+                "example": "Lviv"
+              },
+              "photo": {
+                "type": "string",
+                "example": ""
+              }
+            }
+          }
+        }
+      },
+      "UserUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "Степан Бандера"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "demo@demo.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380971234567"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date",
+            "example": "1909-01-01"
+          },
+          "city": {
+            "type": "string",
+            "example": "Lviv"
+          },
+          "photo": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "UserUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "507f1f77bcf86cd799439012"
+          },
+          "username": {
+            "type": "string",
+            "example": "Степан Бандера"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "demo@demo.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380971234567"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date",
+            "example": "1909-01-01"
+          },
+          "city": {
+            "type": "string",
+            "example": "Lviv"
+          },
+          "photo": {
+            "type": "string",
+            "example": ""
+          }
+        }
+      },
+      "SponsorsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "example": "Притулок для бездомних тварин 'Сіріус'"
+            },
+            "url": {
+              "type": "string",
+              "example": "https://dogcat.com.ua"
+            },
+            "addressUrl": {
+              "type": "string",
+              "example": "https://goo.gl/maps/iq8NXEUf31EAQCzc6"
+            },
+            "imageUrl": {
+              "type": "string",
+              "example": "https://storage.googleapis.com/kidslikev2_bucket/pets-support/images/sponsors/frame_287.png"
+            },
+            "address": {
+              "type": "string",
+              "example": "Fedorivka, Kyiv Oblast, Ukraine, 07372"
+            },
+            "phone": {
+              "type": "string",
+              "example": "+380931934069"
+            },
+            "email": {
+              "type": "string",
+              "example": "null"
+            },
+            "workDay": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "isOpen": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "from": {
+                    "type": "string",
+                    "example": "11:00"
+                  },
+                  "to": {
+                    "type": "string",
+                    "example": "16:00"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "NewsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        },
+        "example": [
+          {
+            "title": "В День ветеринара в столиці пройде безкоштовний тренінг з надання першої допомоги тваринам",
+            "url": "https://www.kmlvm.com.ua/v-den-veterynara-v-stolytsi-projde-bezkoshtovnyj-trening-z-nadannya-pershoyi-dopomogy-tvarynam/",
+            "description": "В неділю, 14 серпня, в Тимчасовому притулку для тварин «ВДНГ» пройде тренінг на тему «Надання першої допомоги тваринам». Захід проводиться комунальним підприємством «Київська міська лікарня ветеринарної медицини», фахівці якого навчать всіх бажаючих навичкам надання першої допомоги братам нашим меншим, які потрапили в біду. Без перебільшення, подібні знання можуть врятувати життя чотирилапим. Тренінг безкоштовний, взяти в ньому участь може будь-хто, дозволяється участь зі своїм домашнім улюбленцем. Після тренінгу учасники зможуть отримати безкоштовну консультацію ветеринара, щодо догляду за тваринами, вакцинації та будь-яких інших питань, пов'язаними зі здоров'ям улюбленця. Дата проведення майстер-класу обрана не випадково. 14 серпня в Україні відзначається День працівників ветеринарної медицини і цього року ми вирішили провести такий потрібний тренінг. Для ветеринара головне – це врятовані брати наші менші, а навчити людей надавати первинну допомогу тваринам значить «інвестувати» у врятовані життя тварин в майбутньому. Початок тренінгу об 11:00. Адреса Тимчасового притулку для тварин «ВДНГ»: вулиця Академіка Глушкова, 1, 16 павільйон.",
+            "date": "2022-08-12"
+          }
+        ]
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
