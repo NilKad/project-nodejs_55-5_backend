@@ -4,6 +4,6 @@ const location = require('./location');
 const routerNews = require('./news');
 const notices = require('./notices');
 const pets = require('./pets');
-const services = require('./services');
+const routerSponsors = require('./sponsors');
 
-module.exports = { breed, location, routerNews, notices, pets, services };
+module.exports = { breed, location, routerNews, notices, pets, routerSponsors };
