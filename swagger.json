@@ -19,7 +19,7 @@
   ],
   "tags": [
     {
-      "name": "user"
+      "name": "auth"
     },
     {
       "name": "sponsors"
@@ -76,7 +76,7 @@
       "post": {
         "operationId": "UserLogin",
         "tags": [
-          "user"
+          "auth"
         ],
         "summary": "User authentication",
         "parameters": [],
@@ -129,7 +129,7 @@
     "/auth/user": {
       "patch": {
         "tags": [
-          "user"
+          "auth"
         ],
         "operationId": "UserUpdate",
         "summary": "User authentication",
@@ -188,7 +188,7 @@
     "/auth/logout": {
       "post": {
         "tags": [
-          "user"
+          "auth"
         ],
         "summary": "Logout user",
         "parameters": [],
@@ -624,6 +624,10 @@
         "items": {
           "type": "object",
           "properties": {
+            "_id": {
+              "type": "string",
+              "example": "507f1f77bcf86cd799439012"
+            },
             "title": {
               "type": "string",
               "example": "Притулок для бездомних тварин 'Сіріус'"
@@ -771,6 +775,7 @@
           }
         },
         "example": {
+          "_id": "63f3f58416722f6e4408e435",
           "owner": "63f3f58416722f6e4408e435",
           "name": "Jack",
           "date": "2018-04-22",
@@ -811,6 +816,7 @@
         },
         "example": [
           {
+            "_id": "63f3f58416722f6e4408e429",
             "owner": "63f3f58416722f6e4408e435",
             "name": "Jack",
             "date": "2018-04-22",
@@ -819,6 +825,7 @@
             "imageUrl": ""
           },
           {
+            "_id": "63f3f58416722f6e4408e428",
             "owner": "63f3f58416722f6e4408e430",
             "name": "Jack",
             "date": "2018-04-22",
