@@ -16,11 +16,20 @@ const removeUserPet = async (petID, ownerId) => {
   return deletedContact;
 };
 
-const addUserPet = async reqBody => {
-  const newPet = new Pet(reqBody);
+const addUserPet = async data => {
+  const newPet = new Pet(data);
 
   try {
     const createdPet = await newPet.save();
+
+    // ˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜To be added as a userService (Push new pet._id to userPets)˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜
+    // if (createdPet) {
+    //   User.findByIdAndUpdate(createdPet.owner, { $push: { userPets: createdPet._id } })
+    //     .then((user) => {
+    //       if (user) {
+    //         res.status(201).json({ success: true, pet });
+    //       }
+
     return createdPet;
   } catch (error) {
     if (error instanceof mongoose.Error.ValidationError) {
