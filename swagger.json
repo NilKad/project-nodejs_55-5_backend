@@ -19,13 +19,16 @@
   ],
   "tags": [
     {
-      "name": "user"
+      "name": "auth"
     },
     {
       "name": "sponsors"
     },
     {
       "name": "news"
+    },
+    {
+      "name": "pets"
     }
   ],
   "paths": {
@@ -73,7 +76,7 @@
       "post": {
         "operationId": "UserLogin",
         "tags": [
-          "user"
+          "auth"
         ],
         "summary": "User authentication",
         "parameters": [],
@@ -126,7 +129,7 @@
     "/auth/user": {
       "patch": {
         "tags": [
-          "user"
+          "auth"
         ],
         "operationId": "UserUpdate",
         "summary": "User authentication",
@@ -185,7 +188,7 @@
     "/auth/logout": {
       "post": {
         "tags": [
-          "user"
+          "auth"
         ],
         "summary": "Logout user",
         "parameters": [],
@@ -261,7 +264,7 @@
         "tags": [
           "news"
         ],
-        "operationId": "News",
+        "operationId": "NewsGetAll",
         "description": "description",
         "summary": "Get all news",
         "responses": {
@@ -274,6 +277,144 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/pets": {
+      "post": {
+        "tags": [
+          "pets"
+        ],
+        "operationId": "PetsAdd",
+        "description": "description",
+        "summary": "Add new pets",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Add new Pets",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PetsAddRequest"
+              },
+              "encoding": {
+                "imageUrl": {
+                  "contentType": "image/png, image/jpeg"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetsAddResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad request (invalid request body)"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "pets"
+        ],
+        "operationId": "PetsGetAll",
+        "description": "description",
+        "summary": "Get all pets",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetsGetAllResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pets/{id}": {
+      "delete": {
+        "tags": [
+          "pets"
+        ],
+        "operationId": "PetDelete",
+        "description": "description",
+        "summary": "Delete pet",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Task's id ('id' field in task's object)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad request (invalid ID)"
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)"
+          },
+          "404": {
+            "description": "Pet not found"
           }
         }
       }
@@ -483,6 +624,10 @@
         "items": {
           "type": "object",
           "properties": {
+            "_id": {
+              "type": "string",
+              "example": "507f1f77bcf86cd799439012"
+            },
             "title": {
               "type": "string",
               "example": "Притулок для бездомних тварин 'Сіріус'"
@@ -560,6 +705,133 @@
             "url": "https://www.kmlvm.com.ua/v-den-veterynara-v-stolytsi-projde-bezkoshtovnyj-trening-z-nadannya-pershoyi-dopomogy-tvarynam/",
             "description": "В неділю, 14 серпня, в Тимчасовому притулку для тварин «ВДНГ» пройде тренінг на тему «Надання першої допомоги тваринам». Захід проводиться комунальним підприємством «Київська міська лікарня ветеринарної медицини», фахівці якого навчать всіх бажаючих навичкам надання першої допомоги братам нашим меншим, які потрапили в біду. Без перебільшення, подібні знання можуть врятувати життя чотирилапим. Тренінг безкоштовний, взяти в ньому участь може будь-хто, дозволяється участь зі своїм домашнім улюбленцем. Після тренінгу учасники зможуть отримати безкоштовну консультацію ветеринара, щодо догляду за тваринами, вакцинації та будь-яких інших питань, пов'язаними зі здоров'ям улюбленця. Дата проведення майстер-класу обрана не випадково. 14 серпня в Україні відзначається День працівників ветеринарної медицини і цього року ми вирішили провести такий потрібний тренінг. Для ветеринара головне – це врятовані брати наші менші, а навчити людей надавати первинну допомогу тваринам значить «інвестувати» у врятовані життя тварин в майбутньому. Початок тренінгу об 11:00. Адреса Тимчасового притулку для тварин «ВДНГ»: вулиця Академіка Глушкова, 1, 16 павільйон.",
             "date": "2022-08-12"
+          }
+        ]
+      },
+      "PetsAddRequest": {
+        "type": "object",
+        "required": [
+          "owner",
+          "name",
+          "date",
+          "breed",
+          "comments"
+        ],
+        "properties": {
+          "owner": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "full-date"
+          },
+          "breed": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "binary"
+          }
+        },
+        "example": {
+          "owner": "63f3f58416722f6e4408e434",
+          "name": "Jack",
+          "date": "2018-04-22",
+          "breed": "Persian cat",
+          "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
+        }
+      },
+      "PetsAddResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "format": "objectId"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "full-date"
+          },
+          "breed": {
+            "type": "string"
+          },
+          "comments": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "_id": "63f3f58416722f6e4408e435",
+          "owner": "63f3f58416722f6e4408e435",
+          "name": "Jack",
+          "date": "2018-04-22",
+          "breed": "Persian cat",
+          "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur",
+          "imageUrl": ""
+        }
+      },
+      "PetsGetAllResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string",
+              "format": "full-date"
+            },
+            "breed": {
+              "type": "string"
+            },
+            "comments": {
+              "type": "string"
+            },
+            "imageUrl": {
+              "type": "string"
+            }
+          }
+        },
+        "example": [
+          {
+            "_id": "63f3f58416722f6e4408e429",
+            "owner": "63f3f58416722f6e4408e435",
+            "name": "Jack",
+            "date": "2018-04-22",
+            "breed": "Persian cat",
+            "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur",
+            "imageUrl": ""
+          },
+          {
+            "_id": "63f3f58416722f6e4408e428",
+            "owner": "63f3f58416722f6e4408e430",
+            "name": "Jack",
+            "date": "2018-04-22",
+            "breed": "Persian cat",
+            "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur",
+            "imageUrl": ""
           }
         ]
       }
