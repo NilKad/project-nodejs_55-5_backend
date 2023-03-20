@@ -495,9 +495,9 @@
         "tags": [
           "notices"
         ],
-        "operationId": "NoticesFind",
+        "operationId": "NoticesByCategories",
         "description": "description",
-        "summary": "Find Notices title",
+        "summary": "Get by Categories and find Notices title",
         "security": [
           {
             "Bearer": []
@@ -544,6 +544,74 @@
               "application/json": {
                 "example": {
                   "message": "Bad request (invalid request body)"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Notices not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Notices not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/byid/{id}": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "operationId": "NoticesFind",
+        "description": "description",
+        "summary": "Get Notices by ID",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID notice",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticesByIdResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (id incorrect)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad request (id incorrect)"
                 }
               }
             }
@@ -1195,6 +1263,89 @@
           "location": "Lviv",
           "price": 150,
           "currency": "$",
+          "imageUrl": ""
+        }
+      },
+      "NoticesByIdResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "sell",
+              "lost-found",
+              "for-free"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "full-date"
+          },
+          "breed": {
+            "type": "string"
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ]
+          },
+          "location": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "₴",
+              "$",
+              "€"
+            ]
+          },
+          "comments": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "_id": "63f3f58416722f6e4408e429",
+          "owner": "63f3f58416722f6e4408e429",
+          "category": "sell",
+          "title": "Сute dog looking for a home",
+          "name": "Rich",
+          "birthday": "2020-09-21",
+          "breed": "Pomeranian",
+          "sex": "male",
+          "location": "Lviv",
+          "email": "user@mail.com",
+          "phone": "+380971234567",
+          "price": 150,
+          "currency": "$",
+          "comments": "Comments: Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur Lorem",
           "imageUrl": ""
         }
       }
