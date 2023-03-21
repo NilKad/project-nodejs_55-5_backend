@@ -1,5 +1,4 @@
-const news = require("../controlers/news");
-const sponsors = require("../controlers/sponsors");
+const news = require('../controlers/news');
+const sponsors = require('./friends');
 
-
-module.exports = {news, sponsors};
+module.exports = { news, sponsors };
