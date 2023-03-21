@@ -14,7 +14,7 @@ const router = express.Router();
 router.post(
   '/',
   auth,
-  uploadCloud.single('image'),
+  uploadCloud.single('imageURL'),
   newPetValidation,
   ctrlWrapper(addUserPetController)
 );
