@@ -1,4 +1,4 @@
-const news = require('../controlers/news');
+const news = require('./news');
 const friends = require('./friends');
 
 module.exports = { news, friends };
