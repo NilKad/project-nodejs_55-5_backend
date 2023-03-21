@@ -1,5 +1,5 @@
 const Pet = require('./petModel');
 const News = require('./news');
-const Sponsors = require('./sponsors');
+const Friends = require('./friend');
 
-module.exports = { News, Sponsors, Pet };
+module.exports = { News, Friends, Pet };
