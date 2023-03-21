@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const auth = require('./routes/api/auth');
-const { notices, routerSponsors, routerNews, pets } = require('./routes/api');
+const { notices, routerFriends, routerNews, pets } = require('./routes/api');
 
 const app = express();
 

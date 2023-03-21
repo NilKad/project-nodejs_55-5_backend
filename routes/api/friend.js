@@ -1,9 +1,9 @@
 const express = require('express');
-const { sponsors } = require('../../controlers');
+const { friends } = require('../../controlers');
 const ctrlWrapper = require('../../middleWares/ctrlWrapper');
 
 const router = express.Router();
 
-router.get('/', ctrlWrapper(sponsors));
+router.get('/', ctrlWrapper(friends));
 
 module.exports = routerFriends = router;
