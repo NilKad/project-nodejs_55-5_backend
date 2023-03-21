@@ -1,3 +1,6 @@
 const ctrlWrapper = require('./ctrlWrapper');
+const auth = require('./auth');
+const { newPetValidation } = require('./newPetValidation');
+const uploadCloud = require("./uploadMiddleware")
 
-module.exports = ctrlWrapper;
+module.exports = { ctrlWrapper, auth, newPetValidation, uploadCloud };
