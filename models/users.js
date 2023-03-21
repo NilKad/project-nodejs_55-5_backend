@@ -8,8 +8,9 @@ const UsersSchema = new mongoose.Schema(
       required: [true, 'Set user name'],
     },
     email: {
-      type: Date,
+      type: email,
       required: [true, 'Set email user'],
+      unique: true,
     },
     password: {
       type: String,
@@ -29,15 +30,17 @@ const UsersSchema = new mongoose.Schema(
     },
     avatar: {
       type: mongoose.SchemaTypes.Url,
-      unique: true,
     },
     birthday: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'users',
     },
-    favorites: {
-      type: array,
-    },
+    favorites: [
+      {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'notices',
+      },
+    ],
   },
   {
     versionKey: false,
