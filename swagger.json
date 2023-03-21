@@ -22,7 +22,7 @@
       "name": "auth"
     },
     {
-      "name": "sponsors"
+      "name": "friends"
     },
     {
       "name": "news"
@@ -38,7 +38,7 @@
     "/auth/register": {
       "post": {
         "tags": [
-          "user"
+          "auth"
         ],
         "operationId": "UserRegister",
         "summary": "User registration",
@@ -239,12 +239,12 @@
         }
       }
     },
-    "/sponsors": {
+    "/friends": {
       "get": {
         "tags": [
-          "sponsors"
+          "friends"
         ],
-        "operationId": "Sponsors",
+        "operationId": "friends",
         "description": "description",
         "summary": "Get all services and friends",
         "parameters": [],
@@ -254,7 +254,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SponsorsResponse"
+                  "$ref": "#/components/schemas/friendsResponse"
                 }
               }
             }
@@ -422,17 +422,122 @@
         }
       }
     },
-    "/notices": {
+    "/notices/{category}": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "operationId": "NoticesByCategories",
+        "description": "description",
+        "summary": "Get by Categories and find Notices title",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "description": "ID notice",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "sell",
+                "lost-found",
+                "for-free"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "findtext",
+            "description": "Find text in title",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "isFavorites",
+            "description": "Find favorites in category",
+            "required": true,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticesCategoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad request (invalid request body)"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Notices not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Notices not found"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "notices"
         ],
-        "operationId": "NoticesAdd",
+        "operationId": "NoticesAddInCategory",
         "description": "description",
-        "summary": "Add Notices",
+        "summary": "Add Notices in category",
         "security": [
           {
             "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "description": "ID notice",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "sell",
+                "lost-found",
+                "for-free"
+              ]
+            }
           }
         ],
         "requestBody": {
@@ -441,7 +546,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/NoticesAddRequest"
+                "$ref": "#/components/schemas/NoticesAddInCategoryRequest"
               }
             }
           }
@@ -483,87 +588,6 @@
               "application/json": {
                 "example": {
                   "message": "Invalid input"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notices/{category}": {
-      "get": {
-        "tags": [
-          "notices"
-        ],
-        "operationId": "NoticesByCategories",
-        "description": "description",
-        "summary": "Get by Categories and find Notices title",
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "category",
-            "description": "ID notice",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "sell",
-                "lost-found",
-                "for-free"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "findtext",
-            "description": "Find text in title",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NoticesCategoryResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad request (invalid request body)"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized (invalid access token)",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Unauthorized (invalid access token)"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Notices not found",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Notices not found"
                 }
               }
             }
@@ -632,6 +656,177 @@
               "application/json": {
                 "example": {
                   "message": "Notices not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/favorites{id}": {
+      "post": {
+        "tags": [
+          "notices"
+        ],
+        "operationId": "NoticesAddFavorites",
+        "description": "description",
+        "summary": "Added notice to Favorites",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID notice",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Success added to favorites"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (id incorrect)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad request (id incorrect)"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Notices not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Notices not found in user list"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "notices"
+        ],
+        "operationId": "NoticesDelFavorites",
+        "description": "description",
+        "summary": "Del Notices from favorites",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID notice",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Success notice delete from favorites"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (id incorrect)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad request (id incorrect)"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Notices not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Notices not found in user list"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/byuser": {
+      "get": {
+        "tags": [
+          "notices"
+        ],
+        "operationId": "NoticesByUser",
+        "description": "description",
+        "summary": "Get Notices User",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticesCategoryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized (invalid access token)"
                 }
               }
             }
@@ -839,7 +1034,7 @@
           }
         }
       },
-      "SponsorsResponse": {
+      "friendsResponse": {
         "type": "array",
         "items": {
           "type": "object",
@@ -862,7 +1057,7 @@
             },
             "imageUrl": {
               "type": "string",
-              "example": "https://storage.googleapis.com/kidslikev2_bucket/pets-support/images/sponsors/frame_287.png"
+              "example": "https://storage.googleapis.com/kidslikev2_bucket/pets-support/images/friends/frame_287.png"
             },
             "address": {
               "type": "string",
@@ -1058,7 +1253,7 @@
           }
         ]
       },
-      "NoticesAddRequest": {
+      "NoticesAddInCategoryRequest": {
         "type": "object",
         "required": [
           "owner",
@@ -1066,21 +1261,13 @@
           "title",
           "name",
           "breed",
-          "sex",
           "location",
+          "sex",
           "comments"
         ],
         "properties": {
           "owner": {
             "type": "string"
-          },
-          "category": {
-            "type": "string",
-            "enum": [
-              "sell",
-              "lost-found",
-              "for-free"
-            ]
           },
           "title": {
             "type": "string"
@@ -1095,15 +1282,15 @@
           "breed": {
             "type": "string"
           },
+          "location": {
+            "type": "string"
+          },
           "sex": {
             "type": "string",
             "enum": [
               "male",
               "female"
             ]
-          },
-          "location": {
-            "type": "string"
           },
           "price": {
             "type": "number"
@@ -1213,58 +1400,63 @@
         }
       },
       "NoticesCategoryResponse": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string",
-            "enum": [
-              "sell",
-              "lost-found",
-              "for-free"
-            ]
-          },
-          "title": {
-            "type": "string"
-          },
-          "birthday": {
-            "type": "string",
-            "format": "full-date"
-          },
-          "breed": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "price": {
-            "type": "number"
-          },
-          "currency": {
-            "type": "string",
-            "enum": [
-              "₴",
-              "$",
-              "€"
-            ]
-          },
-          "imageUrl": {
-            "type": "string"
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "sell",
+                "lost-found",
+                "for-free"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "birthday": {
+              "type": "string",
+              "format": "full-date"
+            },
+            "breed": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "price": {
+              "type": "number"
+            },
+            "currency": {
+              "type": "string",
+              "enum": [
+                "₴",
+                "$",
+                "€"
+              ]
+            },
+            "imageUrl": {
+              "type": "string"
+            }
           }
         },
-        "example": {
-          "_id": "63f3f58416722f6e4408e429",
-          "category": "sell",
-          "title": "Сute dog looking for a home",
-          "birthday": "2020-09-21",
-          "breed": "Pomeranian",
-          "location": "Lviv",
-          "price": 150,
-          "currency": "$",
-          "imageUrl": ""
-        }
+        "example": [
+          {
+            "_id": "63f3f58416722f6e4408e429",
+            "category": "sell",
+            "title": "Сute dog looking for a home",
+            "birthday": "2020-09-21",
+            "breed": "Pomeranian",
+            "location": "Lviv",
+            "price": 150,
+            "currency": "$",
+            "imageUrl": ""
+          }
+        ]
       },
       "NoticesByIdResponse": {
         "type": "object",
