@@ -10,7 +10,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "servers": [
     {
@@ -304,11 +304,6 @@
             "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PetsAddRequest"
-              },
-              "encoding": {
-                "imageUrl": {
-                  "contentType": "image/png, image/jpeg"
-                }
               }
             }
           }
@@ -1128,16 +1123,12 @@
       "PetsAddRequest": {
         "type": "object",
         "required": [
-          "owner",
           "name",
           "date",
           "breed",
           "comments"
         ],
         "properties": {
-          "owner": {
-            "type": "string"
-          },
           "name": {
             "type": "string"
           },
@@ -1157,12 +1148,10 @@
           }
         },
         "example": {
-          "owner": "63f3f58416722f6e4408e434",
           "name": "Jack",
           "date": "2018-04-22",
           "breed": "Persian cat",
-          "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur",
-          "imageUrl": ""
+          "comments": "Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur"
         }
       },
       "PetsAddResponse": {
@@ -1256,7 +1245,6 @@
       "NoticesAddInCategoryRequest": {
         "type": "object",
         "required": [
-          "owner",
           "category",
           "title",
           "name",
@@ -1266,9 +1254,6 @@
           "comments"
         ],
         "properties": {
-          "owner": {
-            "type": "string"
-          },
           "title": {
             "type": "string"
           },
@@ -1312,7 +1297,6 @@
           }
         },
         "example": {
-          "owner": "63f3f58416722f6e4408e429",
           "category": "sell",
           "title": "Сute dog looking for a home",
           "name": "Rich",
