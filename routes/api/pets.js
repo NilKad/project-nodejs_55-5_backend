@@ -2,7 +2,7 @@ const express = require('express');
 const {
   addUserPetController,
   removeUserPetController,
-} = require('../../controlers');
+} = require('../../controllers');
 const {
   auth,
   ctrlWrapper,
