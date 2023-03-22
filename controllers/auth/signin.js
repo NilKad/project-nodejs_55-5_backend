@@ -13,18 +13,8 @@ const { SECRET_KEY } = process.env;
 const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
-  //   const selectUserElement = {
-  //     password: 0,
-  //     verificationToken: 0,
-  //     verify: 0,
-  //     _id: 0,
-  //     isActive: 0,
-  //     createdAt: 0,
-  //     updatedAt: 0,
-  // };
-
   if (!email || !password) {
-    return next(createError(401, 'Email or password is wrong'));
+    return next(createError(400, 'Bad request (invalid request body)'));
   }
   const user = await Users.findOne({ email });
   if (!user) return next(createError(401, 'Email or password is wrong'));

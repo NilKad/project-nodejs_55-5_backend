@@ -10,7 +10,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   "servers": [
     {
@@ -20,6 +20,9 @@
   "tags": [
     {
       "name": "auth"
+    },
+    {
+      "name": "user"
     },
     {
       "name": "friends"
@@ -35,7 +38,7 @@
     }
   ],
   "paths": {
-    "/auth/register": {
+    "/auth/signup": {
       "post": {
         "tags": [
           "auth"
@@ -67,15 +70,15 @@
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)"
+            "description": "Bad request, invalid data"
           },
           "409": {
-            "description": "Provided email already exists"
+            "description": "email already exists"
           }
         }
       }
     },
-    "/auth/login": {
+    "/auth/signin": {
       "post": {
         "operationId": "UserLogin",
         "tags": [
@@ -107,7 +110,7 @@
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)",
+            "description": "Bad request, invalid data",
             "content": {
               "application/json": {
                 "example": {
@@ -116,7 +119,7 @@
               }
             }
           },
-          "403": {
+          "401": {
             "description": "Email doesn't exist / Password is wrong",
             "content": {
               "application/json": {
@@ -129,13 +132,90 @@
         }
       }
     },
-    "/auth/user": {
-      "patch": {
+    "/auth/logout": {
+      "post": {
         "tags": [
           "auth"
         ],
+        "summary": "Logout user",
+        "parameters": [],
+        "operationId": "UserLogOut",
+        "description": "description",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 204
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 401,
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "operationId": "UserVerifyAuthToken",
+        "summary": "User verify Authtoken",
+        "parameters": [],
+        "description": "description",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserLoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "patch": {
+        "tags": [
+          "user"
+        ],
         "operationId": "UserUpdate",
-        "summary": "User authentication",
+        "summary": "User update profile",
         "parameters": [],
         "description": "description",
         "security": [
@@ -155,7 +235,7 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -186,16 +266,14 @@
             }
           }
         }
-      }
-    },
-    "/auth/logout": {
-      "post": {
+      },
+      "get": {
         "tags": [
-          "auth"
+          "user"
         ],
-        "summary": "Logout user",
+        "operationId": "UserGetProfile",
+        "summary": "User get profile information",
         "parameters": [],
-        "operationId": "UserLogOut",
         "description": "description",
         "security": [
           {
@@ -203,24 +281,12 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
-                "example": {
-                  "code": 204,
-                  "message": "Logout successful"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "No token provided",
-            "content": {
-              "application/json": {
-                "example": {
-                  "code": 400,
-                  "message": "No token provided"
+                "schema": {
+                  "$ref": "#/components/schemas/UserGetProfileResponse"
                 }
               }
             }
@@ -230,7 +296,6 @@
             "content": {
               "application/json": {
                 "example": {
-                  "code": 401,
                   "message": "Unauthorized (invalid access token)"
                 }
               }
@@ -254,7 +319,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/friendsResponse"
+                  "$ref": "#/components/schemas/FriendsResponse"
                 }
               }
             }
@@ -456,8 +521,16 @@
           {
             "in": "query",
             "name": "isFavorites",
-            "description": "Find favorites in category",
-            "required": true,
+            "description": "Get favorites in category",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "myAdds",
+            "description": "Get my Adds",
             "schema": {
               "type": "boolean",
               "default": false
@@ -791,43 +864,6 @@
           }
         }
       }
-    },
-    "/notices/byuser": {
-      "get": {
-        "tags": [
-          "notices"
-        ],
-        "operationId": "NoticesByUser",
-        "description": "description",
-        "summary": "Get Notices User",
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NoticesCategoryResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized (invalid access token)",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Unauthorized (invalid access token)"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
@@ -839,7 +875,7 @@
           "email",
           "password",
           "phone",
-          "city"
+          "location"
         ],
         "properties": {
           "username": {
@@ -859,7 +895,7 @@
             "type": "string",
             "example": "+380971234567"
           },
-          "city": {
+          "location": {
             "type": "string",
             "example": "Lviv"
           }
@@ -890,11 +926,11 @@
             "format": "date",
             "example": "1909-01-01"
           },
-          "city": {
+          "location": {
             "type": "string",
             "example": "Lviv"
           },
-          "photo": {
+          "avatar": {
             "type": "string",
             "example": ""
           }
@@ -921,11 +957,6 @@
       "UserLoginResponse": {
         "type": "object",
         "properties": {
-          "accessToken": {
-            "type": "string",
-            "description": "Session's access token (needed for all requests)",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA"
-          },
           "data": {
             "type": "object",
             "properties": {
@@ -951,13 +982,27 @@
                 "format": "date",
                 "example": "1909-01-01"
               },
-              "city": {
+              "location": {
                 "type": "string",
                 "example": "Lviv"
               },
-              "photo": {
+              "avatar": {
                 "type": "string",
                 "example": ""
+              },
+              "favorites": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": [
+                    "641a3ac5b825deb246a53f08",
+                    "641a3ac5b825deb246a53f08"
+                  ]
+                }
+              },
+              "authToken": {
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWEzYWM1YjgyNWRlYjI0NmE1M2YwOCIsImlhdCI6MTY3OTQ3Njk0NCwiZXhwIjoxNjgwNjg2NTQ0fQ.qmLBQQyEAhpD57fdxHrGW4v4umjogQ7LVo3V2gCR-S0"
               }
             }
           }
@@ -984,11 +1029,11 @@
             "format": "date",
             "example": "1909-01-01"
           },
-          "city": {
+          "location": {
             "type": "string",
             "example": "Lviv"
           },
-          "photo": {
+          "avatar": {
             "type": "string",
             "format": "binary"
           }
@@ -998,38 +1043,103 @@
         "type": "object",
         "properties": {
           "_id": {
-            "type": "string",
-            "example": "507f1f77bcf86cd799439012"
+            "type": "string"
           },
           "username": {
-            "type": "string",
-            "example": "Степан Бандера"
+            "type": "string"
           },
           "email": {
             "type": "string",
-            "format": "email",
-            "example": "demo@demo.com"
+            "format": "email"
           },
           "phone": {
-            "type": "string",
-            "example": "+380971234567"
+            "type": "string"
           },
           "birthday": {
             "type": "string",
-            "format": "date",
-            "example": "1909-01-01"
+            "format": "date"
           },
-          "city": {
-            "type": "string",
-            "example": "Lviv"
+          "location": {
+            "type": "string"
           },
-          "photo": {
-            "type": "string",
-            "example": ""
+          "avatar": {
+            "type": "string"
+          },
+          "favorites": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "authToken": {
+            "type": "string"
+          }
+        },
+        "$ref": "#/components/schemas/UserDataResponse"
+      },
+      "UserGetProfileResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "birthday": {
+                "type": "string",
+                "format": "date"
+              },
+              "location": {
+                "type": "string"
+              },
+              "avatar": {
+                "type": "string"
+              },
+              "favorites": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "authToken": {
+                "type": "string"
+              }
+            },
+            "$ref": "#/components/schemas/UserDataResponse"
+          },
+          "pets": {
+            "$ref": "#/components/schemas/PetsGetAllResponse"
           }
         }
       },
-      "friendsResponse": {
+      "UserDataResponse": {
+        "example": {
+          "_id": "507f1f77bcf86cd799439012",
+          "username": "Степан Бандера",
+          "email": "demo@demo.com",
+          "phone": "380971234567",
+          "birthday": "1909-01-01",
+          "location": "Lviv",
+          "avatar": "",
+          "favorites": [
+            "641a3ac5b825deb246a53f08",
+            "641a3ac5b825deb246a53f08"
+          ],
+          "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWEzYWM1YjgyNWRlYjI0NmE1M2YwOCIsImlhdCI6MTY3OTQ3Njk0NCwiZXhwIjoxNjgwNjg2NTQ0fQ.qmLBQQyEAhpD57fdxHrGW4v4umjogQ7LVo3V2gCR-S0"
+        }
+      },
+      "FriendsResponse": {
         "type": "array",
         "items": {
           "type": "object",

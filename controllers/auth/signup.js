@@ -18,7 +18,9 @@ const signup = async (req, res, next) => {
   // console.log('req.body', req.body);
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   // console.log('hashPassword', hashPassword);
-
+  if (!userName || !email || !password || !location || !phone) {
+    return next(createError(400, 'Bad request, invalid data'));
+  }
   const isFoundUser = await Users.findOne({ email }, 'email');
   console.log('isFoundUser:\t', isFoundUser);
   if (isFoundUser) {
