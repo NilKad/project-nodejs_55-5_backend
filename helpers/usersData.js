@@ -13,4 +13,13 @@ const userFieldEnabledReturnList = [
 ];
 // isActivates, // groupsResurces, authToken,
 
-module.exports = { userFieldEnabledReturnList };
+const userFieldRecivedFromFront = [
+  'userName',
+  'email',
+  'location',
+  'phone',
+  'birthday',
+  'avatar',
+];
+
+module.exports = { userFieldEnabledReturnList, userFieldRecivedFromFront };
