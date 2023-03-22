@@ -5,6 +5,7 @@ const {
   removeUserPetController,
 } = require('./petsController');
 const auth = require('./auth');
+const user = require('./user');
 
 module.exports = {
   news,
@@ -12,4 +13,5 @@ module.exports = {
   addUserPetController,
   removeUserPetController,
   auth,
+  user,
 };
