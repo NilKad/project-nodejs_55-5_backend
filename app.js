@@ -1,8 +1,13 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
-const auth = require('./routes/api/auth');
-const { notices, routerFriends, routerNews, pets } = require('./routes/api');
+const {
+  notices,
+  routerFriends,
+  routerNews,
+  pets,
+  routerAuth,
+} = require('./routes/api');
 
 const app = express();
 
@@ -12,7 +17,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/auth', auth);
+app.use('/api/auth', routerAuth);
 app.use('/api/notices', notices);
 app.use('/api/friends', routerFriends);
 app.use('/api/news', routerNews);

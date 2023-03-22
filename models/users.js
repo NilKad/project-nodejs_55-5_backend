@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 require('mongoose-type-email');
-// require('mongoose-type-url');
+require('mongoose-type-url');
 
 const UsersSchema = new mongoose.Schema(
   {
@@ -27,18 +27,29 @@ const UsersSchema = new mongoose.Schema(
     },
     birthday: {
       type: Date,
-      required: [false, 'Set birthday user'],
+      // required: [false, 'Set birthday user'],
     },
     avatar: {
       type: mongoose.SchemaTypes.Url,
+      default: '',
+    },
+    isActivate: {
+      type: Boolean,
+      default: false,
+    },
+    authToken: {
+      type: String,
+      default: '',
+    },
+    refreshToken: {
+      type: String,
+      default: '',
     },
     // birthday: {
     //   type: mongoose.SchemaTypes.ObjectId,
     //   ref: 'users',
     // },
-    favorites: {
-      type: array,
-    },
+    favorites: [{ type: Array, default: [] }],
   },
   {
     versionKey: false,
