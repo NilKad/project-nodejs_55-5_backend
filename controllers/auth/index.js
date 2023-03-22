@@ -1,4 +1,8 @@
-const add = require('./add');
-const update = require('./update');
+const signup = require('./signup');
+const signin = require('./signin');
+const current = require('./current');
+const logout = require('./logout');
 
-module.exports = { add, update };
+// const update = require('./update');
+
+module.exports = { signup, signin, current, logout };

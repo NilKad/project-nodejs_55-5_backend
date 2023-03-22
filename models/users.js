@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-// require('mongoose-type-url');
+require('mongoose-type-email');
+require('mongoose-type-url');
 
 const UsersSchema = new mongoose.Schema(
   {
@@ -8,8 +9,9 @@ const UsersSchema = new mongoose.Schema(
       required: [true, 'Set user name'],
     },
     email: {
-      type: Date,
+      type: mongoose.SchemaTypes.Email,
       required: [true, 'Set email user'],
+      unique: true,
     },
     password: {
       type: String,
@@ -21,23 +23,33 @@ const UsersSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: [true, 'Set pasword'],
+      required: [true, 'Set phone Number'],
     },
     birthday: {
       type: Date,
-      required: [false, 'Set birthday user'],
+      // required: [false, 'Set birthday user'],
     },
     avatar: {
       type: mongoose.SchemaTypes.Url,
-      unique: true,
+      default: '',
     },
-    birthday: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'users',
+    isActivate: {
+      type: Boolean,
+      default: false,
     },
-    favorites: {
-      type: array,
+    authToken: {
+      type: String,
+      default: '',
     },
+    refreshToken: {
+      type: String,
+      default: '',
+    },
+    // birthday: {
+    //   type: mongoose.SchemaTypes.ObjectId,
+    //   ref: 'users',
+    // },
+    favorites: [{ type: Array, default: [] }],
   },
   {
     versionKey: false,
@@ -45,6 +57,6 @@ const UsersSchema = new mongoose.Schema(
   }
 );
 
-const Users = mongoose.model('Pet', UsersSchema);
+const Users = mongoose.model('users', UsersSchema);
 
 module.exports = Users;
