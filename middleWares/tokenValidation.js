@@ -5,35 +5,30 @@ const { dataFilter, userFieldEnabledReturnList } = require('../helpers');
 
 const { SECRET_KEY } = process.env;
 
-const errorNotAutorized = () => {
-  const err = createError(401, 'Not autorized');
-  throw err;
-};
-
-const tokenValidation = async (req, res, next) => {
-  console.log('1')
-  if(!req.headers.authorization) {
-    next()
-    return
-  }
+const authMiddleware = async (req, res, next) => {
   const { authorization = '' } = req.headers;
- 
+
+
   const [bearer, token] = authorization.split(' ');
   if(bearer !== 'Bearer') {
-    next()
-    return
-  }
  
+    return  next()
+  }
 
-    if(token) {
-    const {id} = jwt.verify(token, SECRET_KEY);
+  try {
+    const { id } = jwt.verify(token, SECRET_KEY);
     const user = await Users.findById({ _id: id });
-    req.user = user;
+
+    if(!user || user.authToken !== token) {
+      next()
+      return
     }
-
-
-  
+    const newUser = dataFilter(user, userFieldEnabledReturnList);
+    req.user = newUser;
+  } catch (error) {
+    throw error;
+  }
   next();
 };
 
-module.exports = tokenValidation;
+module.exports = authMiddleware;

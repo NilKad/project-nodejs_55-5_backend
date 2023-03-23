@@ -1,10 +1,7 @@
 const { Schema, model, SchemaTypes} = require('mongoose');
 
 const noticesSchema = new Schema({
-        owner: {
-          type: String,
-          required: [true, "Owner is required"]
-        },
+        owner: { type: SchemaTypes.ObjectId, ref: "users"},
         category: {
           type: String,
           enum: ['sell', 'lost-found', 'for-free'],
@@ -46,9 +43,14 @@ const noticesSchema = new Schema({
         },
         imageUrl: {
           type: SchemaTypes.Url,
-          unique: true,
-        },
+          
+    },
+    
         
+},
+{
+  versionKey: false,
+  timestamps: true,
 });
 
 const Notices = model('notices', noticesSchema);
