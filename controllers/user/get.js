@@ -10,7 +10,9 @@ const get = async (req, res, next) => {
   res.status(200).json({
     code: 200,
     message: 'Successful operation',
-    data: { newUser, pets },
+    // data: { newUser, pets },
+    user: newUser,
+    pets,
   });
 };
 module.exports = get;
