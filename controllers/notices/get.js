@@ -9,7 +9,8 @@ const get = async (req, res, next) => {
   if (req.user) {
     const { _id } = req.user;
     if (isFavorites === 'true' && myAdds === 'true') {
-      const err = createError(404, 'The selected category is incorrect');
+      const err = 
+      createError(400, 'is Favorites and myAdds must not have the same values ​(true)');
       throw err;
     }
     console.log(req.user.favorites[0]);

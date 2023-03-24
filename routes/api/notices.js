@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/:category',ctrlWrapper(tokenValidation), ctrlWrapper(get));
 router.get('/byid/:id',validateId, ctrlWrapper(getId));
-router.post('/:category', ctrlWrapper(authMiddleware), uploadCloud.single('imageURL'),createValidation, ctrlWrapper(createNotices));
+router.post('/:category', ctrlWrapper(authMiddleware), uploadCloud.single('imageURL'), createValidation, ctrlWrapper(createNotices));
 router.post('/favorites/:id',validateId, ctrlWrapper(authMiddleware), ctrlWrapper(addFavorit));
 router.delete('/favorites/:id',validateId, ctrlWrapper(authMiddleware), ctrlWrapper(daletFavorit));
 
