@@ -4,20 +4,20 @@ const {
   removeUserPetController,
 } = require('../../controllers');
 const {
-  auth,
   ctrlWrapper,
   newPetValidation,
   uploadCloud,
+  authMiddleware,
 } = require('../../middleWares');
 const router = express.Router();
 
 router.post(
   '/',
-  auth,
+  authMiddleware,
   uploadCloud.single('imageURL'),
   newPetValidation,
   ctrlWrapper(addUserPetController)
 );
-router.delete('/:petID', auth, ctrlWrapper(removeUserPetController));
+router.delete('/:petID', authMiddleware, ctrlWrapper(removeUserPetController));
 
 module.exports = router;
