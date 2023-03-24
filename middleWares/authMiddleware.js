@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Users = require('../models/users');
 const createError = require('http-errors');
-const { dataFilter, userFieldEnabledReturnList } = require('../helpers');
+const { dataFilter, userMainField } = require('../helpers');
 
 const { SECRET_KEY } = process.env;
 
@@ -34,11 +34,12 @@ const authMiddleware = async (req, res, next) => {
     // console.log('token !== token2  -  ', user.authToken !== token);
     // console.log('!!!-0');
     (!user || user.authToken !== token) && errorNotAutorized();
-    const newUser = dataFilter(user, userFieldEnabledReturnList);
+    const newUser = dataFilter(user, userMainField);
     req.user = newUser;
   } catch (error) {
     throw error;
   }
+  console.log('!!!!!!');
   next();
 };
 

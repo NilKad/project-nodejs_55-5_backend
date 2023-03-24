@@ -1,4 +1,5 @@
 const routerAuth = require('./auth');
+const routerUser = require('./user');
 const breed = require('./breed');
 const location = require('./location');
 const routerNews = require('./news');
@@ -17,4 +18,5 @@ module.exports = {
   routerFriends,
   routerAuth,
   routerNotices,
+  routerUser,
 };

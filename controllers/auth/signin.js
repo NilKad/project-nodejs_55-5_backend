@@ -2,8 +2,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Users = require('../../models/users');
 const {
-  requestError,
-  userFieldEnabledReturnList,
+  // requestError,
+  // userMainField,
+  userFullField,
   dataFilter,
 } = require('../../helpers');
 const createError = require('http-errors');
@@ -38,7 +39,7 @@ const signin = async (req, res, next) => {
     { new: true }
   );
   // .select(selectUserElement);
-  const newResult = dataFilter(result, userFieldEnabledReturnList);
+  const newResult = dataFilter(result, userFullField);
 
   res.status(200).json({ code: 200, message: 'ok', data: newResult });
 };

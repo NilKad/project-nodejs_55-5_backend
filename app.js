@@ -7,6 +7,7 @@ const {
   routerNews,
   pets,
   routerAuth,
+  routerUser,
 } = require('./routes/api');
 
 const app = express();
@@ -18,7 +19,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', routerAuth);
+
 app.use('/api/notices', routerNotices);
+app.use('/api/user', routerUser);
 app.use('/api/friends', routerFriends);
 app.use('/api/news', routerNews);
 app.use('/api/pets', pets);
