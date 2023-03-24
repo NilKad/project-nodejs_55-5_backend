@@ -10,7 +10,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.2"
+    "version": "1.0.3"
   },
   "servers": [
     {
@@ -335,6 +335,16 @@
         "operationId": "NewsGetAll",
         "description": "description",
         "summary": "Get all news",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search text in title",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -878,7 +888,7 @@
           "location"
         ],
         "properties": {
-          "username": {
+          "userName": {
             "type": "string",
             "example": "Степан Бандера"
           },
@@ -1201,11 +1211,22 @@
           }
         }
       },
+      "NewsRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
       "NewsResponse": {
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
+            "_id": {
+              "type": "string"
+            },
             "title": {
               "type": "string"
             },
