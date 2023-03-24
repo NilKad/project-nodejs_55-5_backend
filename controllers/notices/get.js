@@ -1,5 +1,5 @@
 const { Notices } = require("../../models");
-
+const createError = require('http-errors');
 
 const get = async (req, res, next) => {
     const {search, isFavorites, myAdds, findtext} = req.query
@@ -7,8 +7,9 @@ const get = async (req, res, next) => {
    
     if(req.user) {
         const {_id} = req.user
-        if (isFavorites && myAdds) {
-        //error400
+        if (isFavorites === 'true' &&  myAdds === 'true') {
+            const err = createError(404, 'The selected category is incorrect');
+            throw err;
         }
         console.log(req.user.favorites[0])
         if (isFavorites === 'true') {
