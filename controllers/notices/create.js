@@ -4,7 +4,6 @@ const { Notices } = require("../../models");
 const createNotices = async (req, res, next) => {
     const {user, body, params, file} = req
     const {_id} = user
-    console.log(_id)
     const {category} = params
     const lower = category.toLowerCase()
     const fullData = !!file

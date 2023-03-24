@@ -10,18 +10,23 @@ const get = async (req, res, next) => {
         if (isFavorites && myAdds) {
         //error400
         }
-
-        if (isFavorites !== 'false') {
-          const result = await Notices.find({category})
+        console.log(req.user.favorites[0])
+        if (isFavorites === 'true') {
+            if(findtext) {
+                console.log(findtext)
+                const result = await Notices.find({category, _id: { $in: req.user.favorites } , 'title': { $regex: findtext, $options: "i" }})
+                return res.status(200).json(result)
+            }
+          const result = await Notices.find({category, _id: { $in: req.user.favorites } })
           return res.status(200).json(result)
         }  
    
-        if (myAdds !== 'false') {
+        if (myAdds === 'true') {
             if(findtext) {
                 const result = await Notices.find({category, owner: _id, 'title': { $regex: findtext, $options: "i" }})
                 return res.status(200).json(result)
             }
-          const result= await Notices.find({category, owner: _id})
+          const result = await Notices.find({category, owner: _id})
           return res.status(200).json(result)
         }
     }
