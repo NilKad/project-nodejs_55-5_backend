@@ -1,7 +1,12 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Users = require('../../models/users');
-const { requestError, userMainField, dataFilter } = require('../../helpers');
+const {
+  // requestError,
+  // userMainField,
+  userFullField,
+  dataFilter,
+} = require('../../helpers');
 const createError = require('http-errors');
 
 const { SECRET_KEY } = process.env;
@@ -34,7 +39,7 @@ const signin = async (req, res, next) => {
     { new: true }
   );
   // .select(selectUserElement);
-  const newResult = dataFilter(result, userMainField);
+  const newResult = dataFilter(result, userFullField);
 
   res.status(200).json({ code: 200, message: 'ok', data: newResult });
 };

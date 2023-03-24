@@ -10,7 +10,7 @@ const userMainField = [
   'avatar',
   'favorites',
   'groupAcces',
-  'authToken',
+  // 'authToken',
 ];
 
 const userFullField = [
