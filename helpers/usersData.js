@@ -1,4 +1,19 @@
-const userFieldEnabledReturnList = [
+// const userMainField = [
+const userMainField = [
+  '_id',
+  'userName',
+  'email',
+  // 'password',
+  'location',
+  'phone',
+  'birthday',
+  'avatar',
+  'favorites',
+  'groupAcces',
+  'authToken',
+];
+
+const userFullField = [
   '_id',
   'userName',
   'email',
@@ -13,4 +28,13 @@ const userFieldEnabledReturnList = [
 ];
 // isActivates, // groupsResurces, authToken,
 
-module.exports = { userFieldEnabledReturnList };
+const userFieldRecivedFromFront = [
+  'userName',
+  'email',
+  'location',
+  'phone',
+  'birthday',
+  'avatar',
+];
+
+module.exports = { userMainField, userFullField, userFieldRecivedFromFront };
