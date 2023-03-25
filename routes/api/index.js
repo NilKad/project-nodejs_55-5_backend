@@ -1,6 +1,6 @@
 const routerAuth = require('./auth');
 const routerUser = require('./user');
-const breed = require('./breed');
+const routerBreeds = require('./breed');
 const location = require('./location');
 const routerNews = require('./news');
 const notices = require('./notices');
@@ -10,7 +10,7 @@ const routerNotices = require('./notices');
 
 
 module.exports = {
-  breed,
+  routerBreeds,
   location,
   routerNews,
   notices,

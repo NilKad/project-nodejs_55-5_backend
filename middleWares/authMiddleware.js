@@ -1,14 +1,8 @@
 const jwt = require('jsonwebtoken');
 const { Users } = require('../models/users');
-const createError = require('http-errors');
-const { dataFilter, userMainField } = require('../helpers');
+const { dataFilter, userMainField, UnauthorizedError } = require('../helpers');
 
 const { SECRET_KEY } = process.env;
-
-const errorNotAutorized = () => {
-  const err = createError(401, 'Not autorized');
-  throw err;
-};
 
 // const errorTokenExpired = error => {
 //   if (error.message === 'jwt expired') {
@@ -19,10 +13,11 @@ const errorNotAutorized = () => {
 
 const authMiddleware = async (req, res, next) => {
   const { authorization = '' } = req.headers;
-  // console.log('authorization: ', authorization);
+  const [authType, token] = authorization.split(' ');
 
-  const [bearer, token] = authorization.split(' ');
-  bearer !== 'Bearer' && errorNotAutorized();
+  if (authType !== 'Bearer' || !token) {
+    return next(new UnauthorizedError('Not authorized'));
+  }
 
   try {
     const { id } = jwt.verify(token, SECRET_KEY);
@@ -33,11 +28,12 @@ const authMiddleware = async (req, res, next) => {
     // console.log('token2: ', user.authToken);
     // console.log('token !== token2  -  ', user.authToken !== token);
     // console.log('!!!-0');
-    (!user || user.authToken !== token) && errorNotAutorized();
+    (!user || user.authToken !== token) &&
+      next(new UnauthorizedError('Not authorized'));
     const newUser = dataFilter(user, userMainField);
     req.user = newUser;
   } catch (error) {
-    throw error;
+    next(new UnauthorizedError('Not authorized'));
   }
   console.log('!!!!!!');
   next();

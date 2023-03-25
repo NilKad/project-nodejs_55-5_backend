@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Users = require('../models/users');
-const createError = require('http-errors');
-const { dataFilter, userMainField } = require('../helpers');
+const { dataFilter, userMainField, ValidationError } = require('../helpers');
 
 const { SECRET_KEY } = process.env;
 
@@ -25,7 +24,7 @@ const authMiddleware = async (req, res, next) => {
     req.user = newUser;
   } catch (error) {
     log('Error token validation');
-    throw error;
+    throw new ValidationError(error.message);
   }
   next();
 };

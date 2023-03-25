@@ -1,3 +1,4 @@
+const { ValidationError } = require("../helpers");
 const {Friends}  = require("../models");
 
 
@@ -6,9 +7,7 @@ try {
     const friends = await Friends.find();
     res.status(200).json(friends)
 } catch (err) {
-    const error = new Error(err.message)
-    error.status = 400 
-    next(error)
+   throw new ValidationError(err.message)
 }
 }
 
