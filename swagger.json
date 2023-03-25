@@ -10,9 +10,12 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.3"
+    "version": "1.0.4"
   },
   "servers": [
+    {
+      "url": "https://petsapi.cyclic.app/api"
+    },
     {
       "url": "http://localhost:3030/api"
     }
@@ -574,16 +577,6 @@
               "application/json": {
                 "example": {
                   "message": "Unauthorized (invalid access token)"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Notices not found",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Notices not found"
                 }
               }
             }
