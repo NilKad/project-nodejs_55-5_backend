@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const Users = require('../../models');
+const { Users } = require('../../models');
 const {
   // requestError,
   // userMainField,

@@ -4,8 +4,9 @@ const {
   ctrlWrapper,
   authMiddleware,
   validation,
+  uploadCloud,
 } = require('../../middleWares');
-const { userValidationSchema } = require('../../models');
+const { userUpdateValidationSchema } = require('../../models');
 
 const router = express.Router();
 
@@ -13,7 +14,8 @@ router.get('/', ctrlWrapper(authMiddleware), ctrlWrapper(ctrl.get));
 router.patch(
   '/',
   ctrlWrapper(authMiddleware),
-  validation(userValidationSchema),
+  uploadCloud.single('avatar'),
+  validation(userUpdateValidationSchema),
   ctrlWrapper(ctrl.update)
 );
 

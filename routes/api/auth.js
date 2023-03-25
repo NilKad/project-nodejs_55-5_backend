@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post(
   '/signin',
-  validation(userValidationSchema),
+  // validation(userValidationSchema),
   ctrlWrapper(ctrl.signin)
 );
 router.post(

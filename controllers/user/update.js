@@ -1,4 +1,4 @@
-const Users = require('../../models');
+const { Users } = require('../../models');
 const {
   userMainField,
   userFieldRecivedFromFront,
@@ -12,7 +12,9 @@ const update = async (req, res, next) => {
     new: true,
   });
   const newResponse = dataFilter(resUpdate, userMainField);
-
+  if (req.file?.path) {
+    newResponse.avatar = req.file.path;
+  }
   res
     .status(200)
     .json({ code: 200, message: 'Successful operation', data: newResponse });

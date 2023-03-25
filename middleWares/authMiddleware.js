@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Users = require('../models/users');
+const { Users } = require('../models/users');
 const createError = require('http-errors');
 const { dataFilter, userMainField } = require('../helpers');
 

@@ -14,6 +14,15 @@ const userValidationSchema = Joi.object({
   avatar: Joi.string().uri(),
 });
 
+const userUpdateValidationSchema = Joi.object({
+  userName: Joi.string().min(3).max(32),
+  email: Joi.string().email(),
+  password: Joi.string().min(7).max(32),
+  location: Joi.string(),
+  phone: Joi.string().length(13),
+  birtday: Joi.date(),
+  avatar: Joi.string().uri(),
+});
 const UsersSchema = new mongoose.Schema(
   {
     userName: {
@@ -71,4 +80,4 @@ const UsersSchema = new mongoose.Schema(
 
 const Users = mongoose.model('users', UsersSchema);
 
-module.exports = { Users, userValidationSchema };
+module.exports = { Users, userValidationSchema, userUpdateValidationSchema };

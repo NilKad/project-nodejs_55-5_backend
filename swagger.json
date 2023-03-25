@@ -10,7 +10,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.4"
+    "version": "1.0.5"
   },
   "servers": [
     {
@@ -230,7 +230,7 @@
           "description": "User update information",
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/UserUpdateRequest"
               }

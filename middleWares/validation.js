@@ -1,6 +1,7 @@
 const validation = schema => {
   return (req, res, next) => {
-    const { error } = schema.validate(req.body);
+    const dataVaidate = req.query ? req.query : req.body;
+    const { error } = schema.validate(dataVaidate);
     if (error) {
       error.status = 400;
       throw error;
