@@ -1,6 +1,18 @@
+const Joi = require('joi');
+// const { string } = require('joi');
 const mongoose = require('mongoose');
 require('mongoose-type-email');
 require('mongoose-type-url');
+
+const userValidationSchema = Joi.object({
+  userName: Joi.string().min(3).max(32).required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(7).max(32).required(),
+  location: Joi.string().required(),
+  phone: Joi.string().length(13).required(),
+  birtday: Joi.date(),
+  avatar: Joi.string().uri(),
+});
 
 const UsersSchema = new mongoose.Schema(
   {
@@ -59,4 +71,4 @@ const UsersSchema = new mongoose.Schema(
 
 const Users = mongoose.model('users', UsersSchema);
 
-module.exports = Users;
+module.exports = { Users, userValidationSchema };

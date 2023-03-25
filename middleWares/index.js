@@ -4,6 +4,7 @@ const uploadCloud = require('./uploadMiddleware');
 const authMiddleware = require('./authMiddleware');
 const tokenValidation = require('./tokenValidation');
 const newNoticesValidation = require('./newNoticesValidation');
+const { validation } = require('./validation');
 
 module.exports = {
   ctrlWrapper,
@@ -12,4 +13,5 @@ module.exports = {
   authMiddleware,
   tokenValidation,
   newNoticesValidation,
+  validation,
 };

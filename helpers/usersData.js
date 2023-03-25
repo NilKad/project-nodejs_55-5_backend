@@ -37,4 +37,16 @@ const userFieldRecivedFromFront = [
   'avatar',
 ];
 
-module.exports = { userMainField, userFullField, userFieldRecivedFromFront };
+const requiredSignUpFields = [
+  'userName',
+  'email',
+  'location',
+  'phone',
+  'password',
+];
+module.exports = {
+  userMainField,
+  userFullField,
+  userFieldRecivedFromFront,
+  requiredSignUpFields,
+};
