@@ -2,7 +2,10 @@ const { ValidationError } = require('../helpers');
 
 const validation = schema => {
   return (req, res, next) => {
-    const dataVaidate = req.query ? req.query : req.body;
+    console.log('req.query: ', req.body);
+    const dataVaidate =
+      Object.keys(req.query).length > 0 ? req.query : req.body;
+    console.log('dataVaidate: ', dataVaidate);
     const { error } = schema.validate(dataVaidate);
     if (error) {
       throw new ValidationError(error.message);
