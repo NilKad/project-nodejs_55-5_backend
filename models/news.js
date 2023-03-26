@@ -1,22 +1,22 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
 const newsSchema = Schema(
   {
     title: {
-        type: String,
-        required: [true, "Title is required"],
+      type: String,
+      required: [true, 'Title is required'],
     },
     url: {
-        type: String,
-        required: [true, "Url is required"],
+      type: String,
+      required: [true, 'Url is required'],
     },
     description: {
-        type: String,
-        required: [true, "Description is required"],
+      type: String,
+      required: [true, 'Description is required'],
     },
     date: {
-        type: String,
-        required: [true, "Date is required"],
+      type: Date,
+      required: [true, 'Date is required'],
     },
   },
   {
@@ -25,6 +25,6 @@ const newsSchema = Schema(
   }
 );
 
-const News = model("news", newsSchema);
+const News = model('news', newsSchema);
 
 module.exports = News;
