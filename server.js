@@ -5,11 +5,12 @@ const app = require('./app');
 const mongoose = require('mongoose');
 
 const { PORT = 3000, DB_HOST, MONGO_URI } = process.env;
+console.log(MONGO_URI)
 // console.log('DB_HOST:\t', DB_HOST);
 // console.log('DB_TEST_HOST:\t', DB_TEST_HOST);
 
 mongoose
-  .connect(MONGO_URI)
+  .connect(DB_HOST)
   .then(() => {
     app.listen(PORT, () => {
       // createFolderIsNotExist(TEMP_DIR);
