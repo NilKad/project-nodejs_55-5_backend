@@ -1,5 +1,5 @@
 const { Notices } = require('../../models');
-const createError = require('http-errors');
+const { ValidationError } = require('../../helpers');
 
 const get = async (req, res, next) => {
   const { search, isFavorites, myAdds, findtext } = req.query;
@@ -9,9 +9,7 @@ const get = async (req, res, next) => {
   if (req.user) {
     const { _id } = req.user;
     if (isFavorites === 'true' && myAdds === 'true') {
-      const err = 
-      createError(400, 'is Favorites and myAdds must not have the same values ​(true)');
-      throw err;
+      throw new ValidationError('is Favorites and myAdds must not have the same values ​(true)')
     }
     console.log(req.user.favorites[0]);
     if (isFavorites === 'true') {

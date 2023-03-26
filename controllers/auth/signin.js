@@ -6,9 +6,9 @@ const {
   // userMainField,
   userFullField,
   dataFilter,
+  ValidationError,
+  UnauthorizedError,
 } = require('../../helpers');
-
-const createError = require('http-errors');
 
 const { SECRET_KEY } = process.env;
 
@@ -16,10 +16,10 @@ const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return next(createError(400, 'Bad request (invalid request body)'));
+    throw new ValidationError('Bad request (invalid request body)');
   }
   const user = await Users.findOne({ email });
-  if (!user) return next(createError(401, 'Email or password is wrong'));
+  if (!user) throw new UnauthorizedError('Email or password is wrong');
 
   // if (!user.isActivate) {
   //   const err = createError(403, `Email ${email} not verified`);
@@ -29,7 +29,7 @@ const signin = async (req, res, next) => {
 
   const isCorrectPassword = bcrypt.compareSync(password, user.password);
   if (!isCorrectPassword)
-    return next(createError(401, 'Email or password is wrong'));
+    throw new UnauthorizedError('Email or password is wrong');
 
   const payload = { id: user._id };
   const authToken = jwt.sign(payload, SECRET_KEY, { expiresIn: '14d' });

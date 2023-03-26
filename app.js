@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const { errorHandler } = require('./helpers');
 const {
   routerNotices,
   routerFriends,
@@ -25,8 +26,8 @@ app.use('/api/user', routerUser);
 app.use('/api/friends', routerFriends);
 app.use('/api/news', routerNews);
 app.use('/api/pets', pets);
+app.use('/api/breed', routerBreeds);
 
-// app.use('/api/breed', ctrl.breed);
 // app.use('/api/location', ctrl.location);
 
 app.use((req, res) => {
@@ -35,16 +36,6 @@ app.use((req, res) => {
   res.json({ messages: 'ERRR JSONS' });
 });
 
-app.use((err, req, res, next) => {
-  console.log('!!!!! (err, req, resp, next) ');
-  console.log('err data:\t', err.data);
-  // console.log('res.message: ', res.message);
-  if (!err.status) err.status = 500;
-  const errEvent = { code: err.status, message: err.message };
-
-  if (err.data) errEvent.data = err.data;
-
-  res.status(err.status).json(errEvent);
-});
+app.use(errorHandler);
 
 module.exports = app;

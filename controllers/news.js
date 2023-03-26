@@ -1,4 +1,4 @@
-const { types } = require("joi");
+const { ValidationError } = require("../helpers");
 const { News } = require("../models");
 
 
@@ -12,9 +12,7 @@ try {
     const news = await News.find();
     res.status(200).json(news)
 } catch (err) {
-    const error = new Error(err.message)
-    error.status = 400 
-    next(error)
+    throw new ValidationError(err.message)
 }
 }
 

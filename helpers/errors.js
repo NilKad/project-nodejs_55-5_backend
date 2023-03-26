@@ -19,8 +19,24 @@ class WrongIdError extends NodeError {
   }
 }
 
+class UnauthorizedError extends NodeError {
+  constructor(message) {
+    super(message);
+    this.status = 401;
+  }
+}
+
+class DuplicateEmailError extends NodeError {
+  constructor(message) {
+    super(message);
+    this.status = 409;
+  }
+}
+
 module.exports = {
   NodeError,
   ValidationError,
   WrongIdError,
+  UnauthorizedError,
+  DuplicateEmailError
 };

@@ -1,5 +1,6 @@
 const Pet = require('./petModel');
 const News = require('./news');
+const Breed = require('./breeds');
 const Friends = require('./friends');
 const {
   Users,
@@ -9,6 +10,7 @@ const {
 const Notices = require('./notices');
 
 module.exports = {
+  Breed,
   News,
   Friends,
   Pet,

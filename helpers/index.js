@@ -1,6 +1,13 @@
 const checkObjByList = require('./checkObjByList');
 const { dataFilter } = require('./dataFilter');
-const { NodeError, ValidationError, WrongIdError } = require('./errors');
+const { errorHandler } = require('./errorHandler');
+const {
+  NodeError,
+  ValidationError,
+  WrongIdError,
+  UnauthorizedError,
+  DuplicateEmailError,
+} = require('./errors');
 const {
   userMainField,
   userFieldRecivedFromFront,
@@ -12,8 +19,11 @@ module.exports = {
   NodeError,
   ValidationError,
   WrongIdError,
+  UnauthorizedError,
+  DuplicateEmailError,
   dataFilter,
   checkObjByList,
+  errorHandler,
   userMainField,
   userFullField,
   userFieldRecivedFromFront,

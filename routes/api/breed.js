@@ -1,5 +1,9 @@
-const breed = (req, res, next) => {
-  //
-};
+const express = require('express');
+const { breeds } = require('../../controllers');
+const ctrlWrapper = require('../../middleWares/ctrlWrapper');
 
-module.exports = breed;
+const router = express.Router();
+
+router.get('/', ctrlWrapper(breeds));
+
+module.exports = routerBreeds = router;
