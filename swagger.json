@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Swagger Petly - OpenAPI 3.0",
-    "description": "aaaa",
+    "description": "The final project for the React.Js and Node.Js course of Full Stack Developer students (IT school GoIT).",
     "contact": {
       "email": "kadulin@gmail.com"
     },
@@ -10,7 +10,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.5"
+    "version": "1.0.6"
   },
   "servers": [
     {
@@ -38,6 +38,9 @@
     },
     {
       "name": "notices"
+    },
+    {
+      "name": "breeds"
     }
   ],
   "paths": {
@@ -867,6 +870,43 @@
           }
         }
       }
+    },
+    "/breeds": {
+      "get": {
+        "tags": [
+          "breeds"
+        ],
+        "operationId": "BreedsGetAll",
+        "description": "description",
+        "summary": "Get all breeds pets",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BreedsGetAllResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized (invalid access token)"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1648,6 +1688,36 @@
           "comments": "Comments: Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur Lorem",
           "imageUrl": ""
         }
+      },
+      "BreedsGetAllResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "format": "objectId"
+            },
+            "name-en": {
+              "type": "string"
+            },
+            "name-ua": {
+              "type": "string"
+            }
+          }
+        },
+        "example": [
+          {
+            "_id": "63f3f58416722f6e4408e445",
+            "name-en": "Affenpinscher",
+            "name-ua": "Аффенпінчер"
+          },
+          {
+            "_id": "63f3f58416722f6e4408e446",
+            "name-en": "Airedale Terrier",
+            "name-ua": "Ердельтер`єр"
+          }
+        ]
       }
     },
     "securitySchemes": {

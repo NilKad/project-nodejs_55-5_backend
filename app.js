@@ -26,7 +26,7 @@ app.use('/api/user', routerUser);
 app.use('/api/friends', routerFriends);
 app.use('/api/news', routerNews);
 app.use('/api/pets', pets);
-app.use('/api/breed', routerBreeds);
+app.use('/api/breeds', routerBreeds);
 
 // app.use('/api/location', ctrl.location);
 
