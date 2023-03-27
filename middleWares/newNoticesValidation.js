@@ -5,8 +5,9 @@ const createValidation = (req, res, next) => {
     const {body, params} = req
     const schema = Joi.object({
         title: Joi.string().min(2).max(48).required(),
+        imageUrl: Joi.string(),
         name: Joi.string().min(2).max(16).required(),
-        birthdate: Joi.string().pattern(/^\d{2}\.\d{2}\.\d{4}$/),
+        birthday: Joi.string(),
         breed: Joi.string().min(2).max(24).required(),
         sex: Joi.string().valid('male', 'female').required(),
         location: Joi.string().required(),
