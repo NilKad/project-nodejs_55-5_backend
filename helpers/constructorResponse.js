@@ -1,10 +1,4 @@
-const constructorResponse = async ({
-  pagination,
-  data,
-  total,
-  perPage,
-  page,
-}) => {
+const constructorResponse = ({ pagination, total, perPage, page }, data) => {
   //
   if (pagination) {
     return {
@@ -15,7 +9,7 @@ const constructorResponse = async ({
       data,
     };
   }
-  return { news };
+  return data;
 };
 
 module.exports = constructorResponse;
