@@ -1,4 +1,5 @@
 const checkObjByList = require('./checkObjByList');
+const constructorResponse = require('./constructorResponse');
 const { dataFilter } = require('./dataFilter');
 const { errorHandler } = require('./errorHandler');
 const {
@@ -28,4 +29,5 @@ module.exports = {
   userFullField,
   userFieldRecivedFromFront,
   requiredSignUpFields,
+  constructorResponse,
 };
