@@ -1,6 +1,6 @@
 const constructorResponse = async ({
   pagination,
-  news,
+  data,
   total,
   perPage,
   page,
@@ -12,7 +12,7 @@ const constructorResponse = async ({
       totalPage: Math.ceil(total / perPage),
       currentPage: page,
       perPage,
-      news: news,
+      data,
     };
   }
   return { news };

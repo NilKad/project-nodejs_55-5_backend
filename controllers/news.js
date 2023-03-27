@@ -25,7 +25,7 @@ const news = async (req, res, next) => {
       pagination: isPagination,
       total,
       perPage,
-      news,
+      data: news,
       page,
     };
     res.status(200).json(await constructorResponse(constructorData));
