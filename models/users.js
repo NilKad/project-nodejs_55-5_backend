@@ -70,7 +70,7 @@ const UsersSchema = new mongoose.Schema(
     //   type: mongoose.SchemaTypes.ObjectId,
     //   ref: 'users',
     // },
-    favorites: [{ type: Array, default: [] }],
+    favorites: { type: Array, default: [] },
   },
   {
     versionKey: false,
