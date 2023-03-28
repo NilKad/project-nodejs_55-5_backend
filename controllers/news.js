@@ -21,6 +21,16 @@ const news = async (req, res, next) => {
         .limit(limit)
         .skip(skip)
         .sort({ date: -1 });
+      if (isPagination) {
+        const constructorData = {
+          pagination: isPagination,
+          total,
+          perPage,
+          // data: news,
+          page,
+        };
+        return res.status(200).json(constructorResponse(constructorData, news));
+      }
       return res.status(200).json(news);
     }
     console.log('limit: ', limit, '\tskip: ', skip);

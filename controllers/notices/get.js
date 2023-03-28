@@ -89,6 +89,11 @@ const get = async (req, res, next) => {
     })
       .limit(limit)
       .skip(skip);
+    if (isPagination) {
+      return res
+        .status(200)
+        .json(constructorResponse(constructorData, notices));
+    }
     res.status(200).json(constructorResponse(constructorData, notices));
   } else {
     notices = await Notices.find({
