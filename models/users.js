@@ -20,7 +20,7 @@ const userUpdateValidationSchema = Joi.object({
   password: Joi.string().min(7).max(32),
   location: Joi.string(),
   phone: Joi.string().length(13),
-  birtday: Joi.date(),
+  birthday: Joi.date(),
   avatar: Joi.string().uri(),
 });
 const UsersSchema = new mongoose.Schema(

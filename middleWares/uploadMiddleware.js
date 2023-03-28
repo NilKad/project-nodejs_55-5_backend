@@ -13,7 +13,8 @@ const storage = new CloudinaryStorage({
   folder: 'userPetsPhoto',
   allowedFormats: ['jpg', 'png'],
   filename: (req, file, cb) => {
-    console.log(req.body)
+    console.log('uploadMiddleWare req.body', req.body);
+    console.log('uploadMiddleWare req.query', req.qurry);
     cb(null, file.originalname);
   },
 });
