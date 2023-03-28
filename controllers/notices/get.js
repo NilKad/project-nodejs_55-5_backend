@@ -15,7 +15,7 @@ const get = async (req, res, next) => {
   const skip = perPage * (page - 1);
 
   const category = req.params.category;
-  const total = await Notices.find().count();
+  let total = await Notices.find().count();
   let notices = [];
   const constructorData = {
     pagination: isPagination,
@@ -26,31 +26,30 @@ const get = async (req, res, next) => {
   };
 
   if (req.user) {
-    const {_id, favorites} = req.user
-  
-    if(category === 'favorite'){
-      const favoritesMap = favorites.map((idArray) => idArray[0])
-      if(search) {
+    const { _id, favorites } = req.user;
+
+    if (category === 'favorite') {
+      const favoritesMap = favorites.map(idArray => idArray[0]);
+      if (search) {
         notices = await Notices.find({
-                  _id: { $in: favoritesMap },
-                  title: { $regex: search, $options: 'i' },
-                })
-                  .limit(limit)
-                  .skip(skip);
-                return res
-                  .status(200)
-                  .json(constructorResponse(constructorData, notices));
+          _id: { $in: favoritesMap },
+          title: { $regex: search, $options: 'i' },
+        })
+          .limit(limit)
+          .skip(skip);
+        return res
+          .status(200)
+          .json(constructorResponse(constructorData, notices));
       }
-          notices = await Notices.find({_id: { $in: favoritesMap },
-    })
+      notices = await Notices.find({ _id: { $in: favoritesMap } })
         .limit(limit)
         .skip(skip);
       return res
         .status(200)
         .json(constructorResponse(constructorData, notices));
     }
-    if(category === 'own'){
-          if (search) {
+    if (category === 'own') {
+      if (search) {
         notices = await Notices.find({
           owner: _id,
           title: { $regex: search, $options: 'i' },
@@ -61,10 +60,8 @@ const get = async (req, res, next) => {
           .status(200)
           .json(constructorResponse(constructorData, notices));
       }
-      
-      notices = await Notices.find({ owner: _id })
-        .limit(limit)
-        .skip(skip);
+
+      notices = await Notices.find({ owner: _id }).limit(limit).skip(skip);
 
       return res
         .status(200)
@@ -72,7 +69,7 @@ const get = async (req, res, next) => {
     }
   }
   // if('lost-found' === category || 'for-free' === category ||) {
-    
+
   // }
 
   if (search) {

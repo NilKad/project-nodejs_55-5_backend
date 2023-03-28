@@ -12,7 +12,10 @@ const news = async (req, res, next) => {
   const skip = perPage * (page - 1);
 
   try {
-    const total = await News.find().count();
+    // const total = await News.find().count();
+    const total = search
+      ? await News.find({ title: { $regex: search, $options: 'i' } }).count()
+      : await News.find().count();
     const constructorData = {
       pagination: isPagination,
       total,
