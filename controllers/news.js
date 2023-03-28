@@ -13,6 +13,13 @@ const news = async (req, res, next) => {
 
   try {
     const total = await News.find().count();
+    const constructorData = {
+      pagination: isPagination,
+      total,
+      perPage,
+      // data: news,
+      page,
+    };
     if (search) {
       console.log('search: ', search);
       const news = await News.find({
@@ -22,13 +29,6 @@ const news = async (req, res, next) => {
         .skip(skip)
         .sort({ date: -1 });
       if (isPagination) {
-        const constructorData = {
-          pagination: isPagination,
-          total,
-          perPage,
-          // data: news,
-          page,
-        };
         return res.status(200).json(constructorResponse(constructorData, news));
       }
       return res.status(200).json(news);
@@ -37,13 +37,13 @@ const news = async (req, res, next) => {
     const news = await News.find().limit(limit).skip(skip).sort({ date: -1 });
     console.log('total', total);
     // console.log('news: ', news);
-    const constructorData = {
-      pagination: isPagination,
-      total,
-      perPage,
-      // data: news,
-      page,
-    };
+    // const constructorData = {
+    //   pagination: isPagination,
+    //   total,
+    //   perPage,
+    //   // data: news,
+    //   page,
+    // };
     res.status(200).json(constructorResponse(constructorData, news));
   } catch (err) {
     throw new ValidationError(err.message);
