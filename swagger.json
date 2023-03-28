@@ -737,7 +737,7 @@
         }
       }
     },
-    "/notices/favorites{id}": {
+    "/notices/favorites/{id}": {
       "post": {
         "tags": [
           "notices"
