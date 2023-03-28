@@ -29,11 +29,11 @@ const get = async (req, res, next) => {
     const { _id, favorites } = req.user;
 
     if (category === 'favorite') {
-      const favoritesMap = favorites.map(idArray => idArray[0]);
-      if (search) {
+      
+      if (findtext) {
         notices = await Notices.find({
-          _id: { $in: favoritesMap },
-          title: { $regex: search, $options: 'i' },
+          _id: { $in: favorites },
+          title: { $regex: findtext, $options: 'i' },
         })
           .limit(limit)
           .skip(skip);
@@ -41,7 +41,7 @@ const get = async (req, res, next) => {
           .status(200)
           .json(constructorResponse(constructorData, notices));
       }
-      notices = await Notices.find({ _id: { $in: favoritesMap } })
+      notices = await Notices.find({ _id: { $in: favorites } })
         .limit(limit)
         .skip(skip);
       return res
@@ -49,10 +49,10 @@ const get = async (req, res, next) => {
         .json(constructorResponse(constructorData, notices));
     }
     if (category === 'own') {
-      if (search) {
+      if (findtext) {
         notices = await Notices.find({
           owner: _id,
-          title: { $regex: search, $options: 'i' },
+          title: { $regex: findtext, $options: 'i' },
         })
           .limit(limit)
           .skip(skip);
@@ -72,10 +72,10 @@ const get = async (req, res, next) => {
 
   // }
 
-  if (search) {
+  if (findtext) {
     notices = await Notices.find({
       category: category,
-      title: { $regex: search, $options: 'i' },
+      title: { $regex: findtext, $options: 'i' },
     })
       .limit(limit)
       .skip(skip);
