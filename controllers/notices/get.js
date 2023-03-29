@@ -59,7 +59,7 @@ const get = async (req, res, next) => {
           .status(200)
           .json(constructorResponse(constructorData, notices));
       }
-      //
+
       notices = await Notices.find({ owner: _id }).limit(limit).skip(skip);
 
       return res
