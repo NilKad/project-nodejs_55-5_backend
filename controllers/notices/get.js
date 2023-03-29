@@ -2,6 +2,7 @@ const { Notices } = require('../../models');
 const { ValidationError, constructorResponse } = require('../../helpers');
 
 const get = async (req, res, next) => {
+try {
   const isPagination = req.query.page;
   const {
     search,
@@ -29,7 +30,14 @@ const get = async (req, res, next) => {
     const { _id, favorites } = req.user;
 
     if (category === 'favorite') {
+   
       if (findtext) {
+        total = await Notices.find({
+          _id: { $in: favorites },
+          title: { $regex: findtext, $options: 'i' },
+        }).count();
+        constructorData.total = total
+
         notices = await Notices.find({
           _id: { $in: favorites },
           title: { $regex: findtext, $options: 'i' },
@@ -40,6 +48,8 @@ const get = async (req, res, next) => {
           .status(200)
           .json(constructorResponse(constructorData, notices));
       }
+      total = await Notices.find({ _id: { $in: favorites } }).count();
+      constructorData.total = total
       notices = await Notices.find({ _id: { $in: favorites } })
         .limit(limit)
         .skip(skip);
@@ -49,6 +59,11 @@ const get = async (req, res, next) => {
     }
     if (category === 'own') {
       if (findtext) {
+        total = await Notices.find({
+          owner: _id,
+          title: { $regex: findtext, $options: 'i' },
+        }).count();
+        constructorData.total = total
         notices = await Notices.find({
           owner: _id,
           title: { $regex: findtext, $options: 'i' },
@@ -72,6 +87,11 @@ const get = async (req, res, next) => {
   // }
 
   if (findtext) {
+    total = await Notices.find({
+      category: category,
+      title: { $regex: findtext, $options: 'i' },
+    }).count();
+    constructorData.total = total
     notices = await Notices.find({
       category: category,
       title: { $regex: findtext, $options: 'i' },
@@ -93,6 +113,9 @@ const get = async (req, res, next) => {
     res.status(200).json(constructorResponse(constructorData, notices));
   }
 
+} catch (error) {
+  res.status(400).json({message: 'Invalid search characters'});
+}
   // const isPagination = req.query.page;
   // const {
   //   search,
