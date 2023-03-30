@@ -15,7 +15,7 @@ const get = async (req, res, next) => {
   const skip = perPage * (page - 1);
 
   const category = req.params.category;
-  let total = await Notices.find().count();
+  let total = await Notices.find({ category }).count();
   let notices = [];
   const constructorData = {
     pagination: isPagination,
