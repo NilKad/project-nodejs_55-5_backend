@@ -10,11 +10,10 @@ const {
   DuplicateEmailError,
 } = require('../../helpers');
 
-
 const signup = async (req, res, next) => {
   const isValidInData = checkObjByList(req.body, requiredSignUpFields);
   if (!isValidInData) {
-    throw new ValidationError('Bad request, invalid data')
+    throw new ValidationError('Bad request, invalid data');
   }
 
   const userDataCreate = dataFilter(req.body, userFieldRecivedFromFront);
@@ -31,13 +30,18 @@ const signup = async (req, res, next) => {
     'email'
   );
   if (isFoundUser) {
-    throw new DuplicateEmailError(`Email: ${userDataCreate.email} alredy register`)
+    throw new DuplicateEmailError(
+      `Email: ${userDataCreate.email} alredy register`
+    );
   }
 
   const user = await Users.create(userDataCreate);
   const newUser = dataFilter(user, userMainField);
 
-  res.status(201).json({ code: '201', message: 'user create', data: newUser });
+  res
+    .status(201)
+    .json({ code: '201', message: 'user create', data: newUser })
+    .redirect('/login');
 };
 
 module.exports = signup;
