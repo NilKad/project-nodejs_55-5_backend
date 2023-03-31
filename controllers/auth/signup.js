@@ -34,7 +34,8 @@ const signup = async (req, res, next) => {
       `Email: ${userDataCreate.email} alredy register`
     );
   }
-
+  const authToken = jwt.sign(payload, SECRET_KEY, { expiresIn: '14d' });
+  userDataCreate.authToken = authToken;
   const user = await Users.create(userDataCreate);
   const newUser = dataFilter(user, userMainField);
 
