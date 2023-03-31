@@ -1,14 +1,17 @@
 const { Users } = require('../../models');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const {
   dataFilter,
-  userMainField,
+  userFullField,
   userFieldRecivedFromFront,
   requiredSignUpFields,
   checkObjByList,
   ValidationError,
   DuplicateEmailError,
 } = require('../../helpers');
+
+const { SECRET_KEY } = process.env;
 
 const signup = async (req, res, next) => {
   const isValidInData = checkObjByList(req.body, requiredSignUpFields);
@@ -34,10 +37,20 @@ const signup = async (req, res, next) => {
       `Email: ${userDataCreate.email} alredy register`
     );
   }
-  const authToken = jwt.sign(payload, SECRET_KEY, { expiresIn: '14d' });
-  userDataCreate.authToken = authToken;
+  // userDataCreate.authToken = authToken;
+
   const user = await Users.create(userDataCreate);
-  const newUser = dataFilter(user, userMainField);
+
+  // console.log()
+  const payload = { id: user._id };
+  const authToken = jwt.sign(payload, SECRET_KEY, { expiresIn: '14d' });
+  const result = await Users.findByIdAndUpdate(
+    user._id,
+    { authToken },
+    { new: true }
+  );
+
+  const newUser = dataFilter(result, userFullField);
 
   res
     .status(201)
